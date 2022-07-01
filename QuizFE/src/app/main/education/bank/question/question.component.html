@@ -1,0 +1,286 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        label="Tạo mới"
+        icon="pi pi-plus"
+        class="p-button-primary mr-2"
+        (click)="openNew()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        tooltipPosition="top"
+        label="Xóa"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedQuestions()"
+        [disabled]="!selectedQuestions || !selectedQuestions.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Nhập danh sách"
+        icon="pi pi-upload"
+        class="p-button-primary mr-2"
+        type=""
+        (click)="openImport()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="data"
+    [rows]="size"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'name',
+      'country.name',
+      'representative.name',
+      'status'
+    ]"
+    responsiveLayout="scroll"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng số {totalRecords} câu hỏi"
+    [showCurrentPageReport]="true"
+    [(selection)]="selectedQuestions"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h3 class="m-0">QUẢN LÝ CÂU HỎI</h3>
+        <span class="p-input-icon-left">
+          <label for="">Số hàng: </label>
+          <p-dropdown
+            [autoDisplayFirst]="false"
+            [options]="sizeOption"
+            [(ngModel)]="size"
+          ></p-dropdown>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="name">
+          CÂU HỎI<p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>THAO TÁC</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="item"></p-tableCheckbox>
+        </td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.content }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            pTooltip="Chỉnh sửa"
+            tooltipPosition="top"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-help mr-2"
+            (click)="editQuestion(item)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Xóa"
+            tooltipPosition="top"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            (click)="deleteQuestion(item)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Tổng cộng có {{ data ? data.length : 0 }} câu hỏi.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="productDialog"
+  [style]="{ width: '90%', height: '90%' }"
+  [header]="titleForm"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="newQuestionForm">
+      <div class="field">
+        <label for="qs">1. Câu hỏi</label>
+        <textarea
+          [rows]="3"
+          pInputTextarea
+          required
+          [autoResize]="true"
+          formControlName="content"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              (f['content'].invalid && submitted) ||
+              (f['content'].dirty && f['content'].invalid)
+          }"
+        ></textarea>
+        <small
+          class="p-error"
+          *ngIf="
+            (f['content'].invalid && submitted) ||
+            (f['content'].dirty && f['content'].invalid)
+          "
+          >Cần nhập câu hỏi</small
+        >
+      </div>
+      <label>2. Danh sách phương án (Ấn vào phương án để sửa)</label>
+      <p-table
+        [value]="newQuestionForm.value.options"
+        [formGroup]="newQuestionForm"
+        [rowTrackBy]="trackByFn"
+        styleClass="p-datatable-gridlines mt-1"
+        responsiveLayout="scroll"
+        dataKey="id"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Phương án</th>
+            <th>Đúng</th>
+            <th></th>
+            <!-- <th>Số lần chọn</th> -->
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-item
+          let-i="rowIndex"
+          formArrayName="options"
+        >
+          <tr [formGroupName]="i">
+            <!-- <td>{{ item.option }}</td> -->
+            <td [style]="{ width: '80%' }" pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input
+                    pInputText
+                    type="text"
+                    placeholder="Nhập phương án"
+                    formControlName="content"
+                  />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ item.content }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td [style]="{ width: '10%' }">
+              <p-checkbox
+                formControlName="isCorrect"
+                [binary]="true"
+              ></p-checkbox>
+            </td>
+            <td [style]="{ width: '10%' }">
+              <button
+                pButton
+                pRipple
+                (click)="deleteOption(i)"
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-text"
+              ></button>
+            </td>
+            <!-- <td [style]="{ width: '10%' }">{{ item.count }}</td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <button
+            pButton
+            pRipple
+            label="Thêm phương án"
+            icon="pi pi-plus"
+            class="p-button-primary mr-2"
+            (click)="addOption()"
+          ></button>
+        </ng-template>
+      </p-table>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Hủy"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveQuestion()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  acceptLabel="Có"
+  rejectLabel="Không"
+  rejectButtonStyleClass="p-button-secondary"
+></p-confirmDialog>
+
+<p-dialog
+  header="Tải lên danh sách câu hỏi"
+  [(visible)]="displayBasic"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ul>
+    <li>
+      Hãy đảm bảo rằng file Excel tải lên đúng định dạng, bao gồm: cột đầu tiên
+      là nội dung câu hỏi, các cột tiếp theo là phương án, cột cuối cùng là vị
+      trí (tính từ 0) những cột đáp án đúng (ngăn cách bởi dấu phẩy).
+    </li>
+    <li>Các hàng sai định dạng sẽ không được thêm vào danh sách.</li>
+  </ul>
+  <ng-template pTemplate="footer">
+    <div class="grid">
+      <div class="col">
+        <input
+          hidden
+          type="file"
+          accept=".xlsx, .xls"
+          (change)="importExcel($event)"
+          #uploader
+        />
+        <p-button
+          [style]="{ width: '100%' }"
+          label="Nhập danh sách"
+          (click)="uploader.click()"
+        ></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

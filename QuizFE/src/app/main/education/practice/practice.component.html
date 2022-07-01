@@ -1,0 +1,34 @@
+<p-table
+  [value]="examList"
+  [paginator]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  responsiveLayout="scroll"
+  currentPageReportTemplate="Hiển thị {first} đến {last} trong tổng số {totalRecords} đề thi"
+  [rowsPerPageOptions]="[10, 25, 50]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Tên đề thi</th>
+      <th>Số lượng câu hỏi</th>
+      <th>Thời gian làm bài (phút)</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-exam>
+    <tr>
+      <td>{{ exam.name }}</td>
+      <td>{{ exam.questions.length }}</td>
+      <td>{{ exam.time }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          label="Làm bài"
+          class="p-button-primary mr-2"
+          [routerLink]="['practice-exam', exam.id]"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

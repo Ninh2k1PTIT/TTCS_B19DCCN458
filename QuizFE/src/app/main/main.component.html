@@ -1,0 +1,9 @@
+<p-menubar  [model]="items" class="menu">
+    <ng-template pTemplate="end">
+        <button pButton pRipple type="button"  (click)="logout()" label="Đăng xuất" icon="pi pi-power-off" class="p-button-secondary"></button>
+    </ng-template>
+</p-menubar>
+
+<div class="mt-8"></div>
+
+<router-outlet></router-outlet>

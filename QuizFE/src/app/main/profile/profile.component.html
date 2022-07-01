@@ -1,0 +1,119 @@
+<div class="grid">
+  <div class="col-1"></div>
+  <div class="col-10">
+    <form [formGroup]="form">
+      <div class="p-card p-fluid grid formgrid">
+        <div
+          class="field col-12 flex justify-content-center flex-wrap card-container purple-container"
+          style="
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'Segoe UI';
+          "
+        >
+          Sửa thông tin cá nhân
+        </div>
+        <div class="field col-6">
+          <label for="fullName">Họ và tên</label>
+          <input
+            formControlName="fullName"
+            id="fullName"
+            type="text"
+            pInputText
+            [ngClass]=" (f['fullName'].errors && f['fullName']?.touched) || (submitted && f['fullName']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+          />
+          <small
+            *ngIf="(f['fullName'].errors && f['fullName']?.touched) || (submitted && f['fullName']?.errors?.['required'])"
+            id="username-help"
+            class="p-error block"
+            >Vui lòng nhập họ và tên</small
+          >
+        </div>
+        <div class="field col-6">
+          <label for="dob">Ngày sinh</label>
+          <div>
+            <p-calendar
+              formControlName="dob"
+              dateFormat="dd/mm/yy"
+              inputId="dob"
+              appendTo="body"
+              [ngClass]=" (f['dob'].errors && f['dob']?.touched) || (submitted && f['dob']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+            ></p-calendar>
+          </div>
+
+          <small
+            *ngIf="(f['dob'].errors && f['dob']?.touched) || (submitted && f['dob']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Vui lòng nhập ngày sinh</small
+          >
+        </div>
+        <div class="field col-6">
+          <label for="email">Email</label>
+          <input
+            formControlName="email"
+            id="email"
+            type="text"
+            pInputText
+            [ngClass]=" (f['email'].errors && f['email']?.touched) || (submitted && f['email']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+          />
+          <small
+            *ngIf="(f['email'].errors?.['required'] && f['email']?.touched) || (submitted && f['email']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Vui lòng nhập email</small
+          >
+          <small
+            *ngIf="(f['email'].errors?.['email'] && f['email']?.touched) || (submitted && f['email']?.errors?.['email'])"
+            id="username2-help"
+            class="p-error block"
+            >Email chưa đúng định dạng</small
+          >
+        </div>
+        <div class="field col-6">
+          <label for="password">Mật khẩu</label>
+          <input
+            formControlName="password"
+            id="password"
+            type="password"
+            pInputText
+            [ngClass]=" (f['password'].errors && f['password']?.touched) || (submitted && f['password']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+          />
+          <small
+            *ngIf="(f['password'].errors && f['password']?.touched) || (submitted && f['password']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Vui lòng nhập mật khẩu</small
+          >
+        </div>
+        <div class="field col-6">
+          <label for="confirmPassword">Xác nhận mật khẩu</label>
+          <input
+            formControlName="confirmPassword"
+            id="confirmPassword"
+            type="password"
+            pInputText
+            [ngClass]=" (f['confirmPassword'].errors && f['confirmPassword']?.touched) || (submitted && f['confirmPassword']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+          />
+
+          <small
+            *ngIf="(f['confirmPassword'].errors && f['confirmPassword']?.dirty) || (submitted && f['confirmPassword']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Chưa khớp với mật khẩu</small
+          >
+        </div>
+        <div
+          class="field col-12 flex justify-content-between flex-wrap card-container purple-container"
+        >
+          <div class="flex align-items-center justify-content-center">
+            <p-button (onClick)="onSubmit()" label="Lưu"></p-button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-1"></div>
+</div>
+<p-toast></p-toast>

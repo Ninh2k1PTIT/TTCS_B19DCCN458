@@ -1,0 +1,46 @@
+<p-scrollTop #scroll></p-scrollTop>
+
+<p-panel header="{{ name }}">
+  <h4>Tài khoản nộp bài: {{ user.fullName }}</h4>
+  <h4>Kết quả: {{ score + "/" + exam.length }}</h4>
+  <form [formGroup]="form">
+    <div formGroupName="submissions">
+      <div formArrayName="answers">
+        <ul *ngFor="let question of exam; let i = index">
+          <div>
+            <div>Câu {{ i + 1 }}: {{ question.content }}</div>
+            <ul *ngFor="let option of question.options; let j = index">
+              <div class="field-checkbox">
+                <div *ngIf="isChxbox(question.options); else radio">
+                  <p-checkbox
+                    [readonly]="true"
+                    [value]="j"
+                    [(ngModel)]="userAnswers[i]"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></p-checkbox>
+                </div>
+                <ng-template #radio>
+                  <p-radioButton
+                    [disabled]="true"
+                    formControlName="{{ i }}"
+                    [value]="j"
+                    name="{{ i }}"
+                    [(ngModel)]="userAnswers[i]"
+                  ></p-radioButton
+                ></ng-template>
+
+                <label for="binary"
+                  >{{ option.content }}
+                  <i
+                    *ngIf="option.isCorrect == true"
+                    class="pi pi-check green-color"
+                  ></i
+                ></label>
+              </div>
+            </ul>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </form>
+</p-panel>

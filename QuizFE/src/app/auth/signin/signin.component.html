@@ -1,0 +1,66 @@
+<div class="card">
+  <div
+    class="flex justify-content-center align-content-center flex-wrap card-container"
+    style="position: absolute; top: 0; right: 0; bottom: 0; left: 0"
+  >
+    <div class="flex align-items-center justify-content-center"></div>
+    <div class="flex align-items-center justify-content-center">
+      <p-card
+        header="Đăng nhập"
+        [style]="{ width: '25rem', 'margin-bottom': '2em' }"
+      >
+        <ng-template pTemplate="header"> </ng-template>
+        <div class="card">
+          <div class="formgrid grid p-fluid">
+            <form [formGroup]="form">
+              <div class="field">
+                <label for="username">Username</label>
+                <input
+                  formControlName="username"
+                  id="username"
+                  type="text"
+                  pInputText
+                  [ngClass]=" (f['username'].errors && f['username']?.touched) || (submitted && f['username']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+                />
+                <small
+                  *ngIf="(f['username'].errors && f['username']?.touched) || (submitted && f['username']?.errors?.['required'])"
+                  id="username-help"
+                  class="p-error block"
+                  >Vui lòng nhập username</small
+                >
+              </div>
+              <div class="field">
+                <label for="password">Mật khẩu</label>
+                <input
+                  formControlName="password"
+                  id="password"
+                  type="text"
+                  pInputText
+                  [ngClass]=" (f['password'].errors && f['password']?.touched) || (submitted && f['password']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+                />
+                <small
+                  *ngIf="(f['password'].errors && f['password']?.touched) || (submitted && f['password']?.errors?.['required'])"
+                  id="password-help"
+                  class="p-error block"
+                  >Vui lòng nhập mật khẩu</small
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div
+          class="flex justify-content-between flex-wrap card-container purple-container"
+        >
+          <div class="flex align-items-center">
+            <a [routerLink]="['/auth/signup']">Đăng ký</a>
+          </div>
+          <div class="flex align-items-center justify-content-center">
+            <p-button (onClick)="onSubmit()" label="Đăng nhập"></p-button>
+          </div>
+        </div>
+      </p-card>
+    </div>
+    <div class="flex align-items-center justify-content-center"></div>
+  </div>
+</div>

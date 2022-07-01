@@ -1,0 +1,28 @@
+
+:host ::ng-deep {
+    .p-toast-message-custom {
+        background-color: #E1CFE7;
+        border: solid #8A427A;
+        border-width: 0 0 0 6px;
+        color: #2c1e30;
+        .p-toast-icon-close {
+            color: #2c1e30;
+        }
+    }
+
+    .p-card .p-card-content {
+        padding: 0 !important;
+    }
+}
+
+.fixedElement {
+    position:fixed;
+    top: 20px;
+    right: 20px;
+    width:20%;
+    z-index:100;
+}
+
+.green-color {
+    color: #22C55E;
+}

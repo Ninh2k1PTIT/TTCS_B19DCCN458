@@ -1,0 +1,353 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        pTooltip="Tạo người dùng mới"
+        tooltipPosition="top"
+        label="Tạo mới"
+        icon="pi pi-plus"
+        class="p-button-primary mr-2"
+        (click)="openNew()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        pTooltip="Xóa các người dùng đã trọn"
+        tooltipPosition="top"
+        label="Xóa"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedUsers()"
+        [disabled]="!selectedUsers || !selectedUsers.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <button
+        pButton
+        pRipple
+        label="Nhập danh sách"
+        icon="pi pi-upload"
+        class="p-button-primary mr-2"
+        type=""
+        (click)="openImport()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Xuất danh sách"
+        icon="pi pi-file-excel"
+        class="p-button-success"
+        (click)="exportExcel()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="data"
+    [rows]="size"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'name',
+      'country.name',
+      'representative.name',
+      'status'
+    ]"
+    responsiveLayout="scroll"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng số {totalRecords} tài khoản"
+    [showCurrentPageReport]="true"
+    [(selection)]="selectedUsers"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h3 class="m-0">QUẢN LÝ TÀI KHOẢN</h3>
+        <span class="p-input-icon-left">
+          <label for="">Số hàng: </label>
+          <p-dropdown
+            [autoDisplayFirst]="false"
+            [options]="sizeOption"
+            [(ngModel)]="size"
+          ></p-dropdown>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="name">
+          HỌ VÀ TÊN<p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="username">
+          USERNAME<p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="dob">
+          NGÀY SINH<p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email">
+          EMAIL<p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="user"></p-tableCheckbox>
+        </td>
+        <td>{{ user.id }}</td>
+        <td>{{ user.fullName }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.dob | date: "dd/MM/yyyy" }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            pTooltip="Chỉnh sửa"
+            tooltipPosition="top"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-help mr-2"
+            (click)="editUser(user)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Xóa"
+            tooltipPosition="top"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            (click)="deleteUser(user)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Tổng cộng có {{ data ? data.length : 0 }} tài khoản.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="userDialog"
+  [style]="{ width: '90%', height: '90%' }"
+  [header]="titleForm"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="newUserForm">
+      <div class="grid p-fluid">
+        <div class="field col-12 md:col-4 mt-4">
+          <label for="name">Họ và tên</label>
+          <input
+            formControlName="fullName"
+            type="text"
+            pInputText
+            [ngClass]="{
+              'ng-dirty':
+                f['fullName'].invalid &&
+                (submitted || f['fullName'].dirty || f['fullName'].touched)
+            }"
+          />
+          <small
+            *ngIf="
+              f['fullName'].invalid &&
+              (submitted || f['fullName'].dirty || f['fullName'].touched)
+            "
+            class="p-error"
+            >Vui lòng nhập tên</small
+          >
+        </div>
+        <div class="field col-12 md:col-4 mt-4">
+          <label for="dob">Ngày sinh</label>
+          <p-calendar
+            formControlName="dob"
+            [defaultDate]="newUserForm.value.dob"
+            dateFormat="dd/mm/yy"
+            inputId="dob"
+            appendTo="body"
+            [ngClass]="
+            (f['dob'].errors && f['dob']?.touched) ||
+            (submitted && f['dob']?.errors?.['required'])
+              ? 'ng-invalid ng-dirty'
+              : ''
+          "
+          ></p-calendar>
+          <small
+            *ngIf="(f['dob'].errors && f['dob']?.touched) || (submitted && f['dob']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Vui lòng nhập ngày sinh</small
+          >
+        </div>
+        <div class="field col-12 md:col-4 mt-4">
+          <label for="username">Username</label>
+          <input
+            formControlName="username"
+            type="text"
+            id="username"
+            pInputText
+            [ngClass]="
+            (f['username'].errors && f['username']?.touched) ||
+            (submitted && f['username']?.errors?.['required'])
+              ? 'ng-invalid ng-dirty'
+              : ''
+          "
+          />
+          <small
+            *ngIf="(f['username'].errors && f['username']?.touched) || (submitted && f['username']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Vui lòng nhập username</small
+          >
+        </div>
+        <div class="field col-12 md:col-4 mt-4">
+          <label for="email">Email</label>
+          <input
+            formControlName="email"
+            type="email"
+            id="email"
+            pInputText
+            [ngClass]=" (f['email'].errors && f['email']?.touched) || (submitted && f['email']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+          />
+          <small
+            *ngIf="(f['email'].errors && f['email']?.touched) || (submitted && f['email']?.errors?.['required'])"
+            id="username2-help"
+            class="p-error block"
+            >Vui lòng nhập email</small
+          >
+        </div>
+        <div class="field col-12 md:col-4 mt-4">
+          <label for="password">Mật khẩu</label>
+          <input
+            formControlName="password"
+            type="password"
+            id="password"
+            pInputText
+            [ngClass]="
+            (f['password'].errors && f['password']?.touched) ||
+            (submitted && f['password']?.errors?.['required'])
+              ? 'ng-invalid ng-dirty'
+              : ''
+          "
+          />
+          <div
+            *ngIf="(f['password'].errors && f['password']?.touched) || (submitted && f['password']?.errors?.['required'])"
+          >
+            <small
+              *ngIf="f['password']?.errors?.['required']"
+              id="username2-help"
+              class="p-error block"
+              >Vui lòng nhập mật khẩu</small
+            >
+          </div>
+        </div>
+        <div class="field col-12 md:col-4 mt-4">
+          <label for="password">Xác nhận</label>
+          <input
+            formControlName="confirmPassword"
+            type="password"
+            id="confirmPassword"
+            pInputText
+            [ngClass]=" (f['confirmPassword'].errors && f['confirmPassword']?.touched) || (submitted && f['confirmPassword']?.errors?.['required']) ? 'ng-invalid ng-dirty' : ''"
+          />
+          <div
+            *ngIf="(f['confirmPassword'].errors && f['confirmPassword']?.touched) || (submitted && f['confirmPassword']?.errors?.['required'])"
+          >
+            <small
+              *ngIf="(f['confirmPassword'].errors && f['confirmPassword']?.dirty) || (submitted && f['confirmPassword']?.errors?.['required'])"
+              id="username2-help"
+              class="p-error block"
+              >Chưa khớp với mật khẩu</small
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Hủy"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveUser()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  acceptLabel="Có"
+  rejectLabel="Không"
+  rejectButtonStyleClass="p-button-secondary"
+></p-confirmDialog>
+
+<p-dialog
+  header="Tải lên danh sách user"
+  [(visible)]="displayBasic"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ul>
+    <li>
+      Hãy đảm bảo rằng file Excel tải lên đúng định dạng, bao gồm các cột: name
+      (Họ và tên), dob (Ngày sinh), citizenIdentity (Căn cước công dân), email,
+      phoneNo (Số điện thoại), gender (Giới tính).
+    </li>
+    <li>
+      Các trường thông tin của mỗi user cần chính xác. Các user có thông tin
+      không hợp lệ sẽ không được thêm vào danh sách
+    </li>
+    <li>Bạn có thể sử dụng file sẵn có do chúng tôi cung cấp</li>
+  </ul>
+  <ng-template pTemplate="footer">
+    <div class="grid">
+      <div class="col">
+        <p-button
+          [style]="{ width: '100%' }"
+          label="Tải mẫu sẵn có"
+          (click)="dowloadTemplate()"
+        ></p-button>
+      </div>
+      <div class="col">
+        <input
+          hidden
+          type="file"
+          accept=".xlsx, .xls"
+          (change)="importExcel($event)"
+          #uploader
+        />
+        <p-button
+          [style]="{ width: '100%' }"
+          label="Nhập danh sách"
+          (click)="uploader.click()"
+        ></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

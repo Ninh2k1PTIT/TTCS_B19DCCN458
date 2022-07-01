@@ -1,0 +1,676 @@
+{
+  "users": [
+    {
+      "username": "ninh",
+      "password": "1",
+      "dob": "2022-07-06T17:00:00.000Z",
+      "fullName": "ninh",
+      "email": "nguyentienhaininh@gmail.com",
+      "id": 1,
+      "roles": [
+        "admin",
+        "user"
+      ]
+    },
+    {
+      "username": "hoa",
+      "password": "1",
+      "fullName": "Nguyễn Hòa",
+      "dob": "2022-07-03T17:00:00.000Z",
+      "email": "hoa@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "id": 2
+    },
+    {
+      "username": "quan",
+      "password": "1",
+      "fullName": "Phạm Anh Quân",
+      "dob": "2021-08-10T17:00:00.000Z",
+      "email": "quan@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "id": 3
+    },
+    {
+      "username": "user",
+      "password": "1",
+      "dob": "2022-07-03T17:00:00.000Z",
+      "fullName": "user",
+      "email": "user@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "id": 4
+    }
+  ],
+  "questions": [
+    {
+      "content": "1+1=?",
+      "options": [
+        {
+          "content": "1",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "2",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "3",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "4",
+          "isCorrect": false,
+          "count": 0
+        }
+      ],
+      "id": 1
+    },
+    {
+      "content": "1+2=?",
+      "options": [
+        {
+          "content": "1",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "2",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "3",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "4",
+          "isCorrect": false,
+          "count": 0
+        }
+      ],
+      "id": 2
+    },
+    {
+      "content": "Những nước nào nằm ở châu Âu?",
+      "options": [
+        {
+          "content": "Việt Nam",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "Hoa Kì",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "Pháp",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "Trung Quốc",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "Thổ Nhĩ Kì",
+          "isCorrect": true,
+          "count": 0
+        }
+      ],
+      "id": 3
+    },
+    {
+      "content": "Thành phố nào trực thuộc trung ương?",
+      "options": [
+        {
+          "content": "Hạ Long",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Hà Nội",
+          "isCorrect": true
+        },
+        {
+          "content": "Vũng Tàu",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Đà Nẵng",
+          "isCorrect": true
+        }
+      ],
+      "id": 5
+    },
+    {
+      "content": "Nước nào ở châu ÂU?",
+      "options": [
+        {
+          "content": "Anh",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "VN",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "Pháp",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "Mĩ",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "TQ",
+          "isCorrect": false,
+          "count": 0
+        },
+        {
+          "content": "Nga",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "Nhật",
+          "isCorrect": false,
+          "count": 0
+        }
+      ],
+      "id": 7
+    },
+    {
+      "content": "2+2=?",
+      "options": [
+        {
+          "content": 4,
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": 5,
+          "isCorrect": false,
+          "count": 0
+        }
+      ],
+      "id": 8
+    },
+    {
+      "content": "Con nào biết bơi?                               ",
+      "options": [
+        {
+          "content": "Tôm",
+          "isCorrect": true,
+          "count": 0
+        },
+        {
+          "content": "Cá",
+          "isCorrect": true,
+          "count": 0
+        }
+      ],
+      "id": 9
+    },
+    {
+      "content": "\"Tiến Quân Ca\" được ai sáng tác?",
+      "options": [
+        {
+          "content": "Nam Cao",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Văn Cao",
+          "isCorrect": true
+        },
+        {
+          "content": "Hồ Chí Minh",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Trịnh Công Sơn",
+          "isCorrect": "false"
+        }
+      ],
+      "id": 10
+    },
+    {
+      "content": "Công thức hóa học của muối ăn?",
+      "options": [
+        {
+          "content": "HCl",
+          "isCorrect": "false"
+        },
+        {
+          "content": "NaCl",
+          "isCorrect": true
+        },
+        {
+          "content": "Na2CO3",
+          "isCorrect": "false"
+        },
+        {
+          "content": "CaCl2",
+          "isCorrect": "false"
+        }
+      ],
+      "id": 11
+    },
+    {
+      "content": "Nước nào thuộc châu Phi?",
+      "options": [
+        {
+          "content": "Nam Phi",
+          "isCorrect": true
+        },
+        {
+          "content": "Thổ Nhĩ Kì",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Ấn Độ",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Li Băng",
+          "isCorrect": "false"
+        },
+        {
+          "content": "Ai Cập",
+          "isCorrect": true
+        }
+      ],
+      "id": 12
+    }
+  ],
+  "exams": [
+    {
+      "name": "Đề số 1",
+      "time": 5,
+      "isActive": true,
+      "questions": [
+        {
+          "id": 1,
+          "content": "1+1=?",
+          "options": [
+            {
+              "content": "1",
+              "isCorrect": false,
+              "count": 0
+            },
+            {
+              "content": "2",
+              "isCorrect": true,
+              "count": 0
+            },
+            {
+              "content": "3",
+              "isCorrect": false,
+              "count": 0
+            },
+            {
+              "content": "4",
+              "isCorrect": false,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "content": "1+2=?",
+          "options": [
+            {
+              "content": "1",
+              "isCorrect": false,
+              "count": 0
+            },
+            {
+              "content": "2",
+              "isCorrect": false,
+              "count": 0
+            },
+            {
+              "content": "3",
+              "isCorrect": true,
+              "count": 0
+            },
+            {
+              "content": "4",
+              "isCorrect": false,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "content": "Con nào biết bơi?                               ",
+          "options": [
+            {
+              "content": "Tôm",
+              "isCorrect": true,
+              "count": 0
+            },
+            {
+              "content": "Cá",
+              "isCorrect": true,
+              "count": 0
+            }
+          ]
+        }
+      ],
+      "id": 1
+    },
+    {
+      "name": "Đề số 2",
+      "time": 15,
+      "isActive": false,
+      "questions": [
+        {
+          "id": 5,
+          "content": "Thành phố nào trực thuộc trung ương?",
+          "options": [
+            {
+              "content": "Hạ Long",
+              "isCorrect": "false"
+            },
+            {
+              "content": "Hà Nội",
+              "isCorrect": true
+            },
+            {
+              "content": "Vũng Tàu",
+              "isCorrect": "false"
+            },
+            {
+              "content": "Đà Nẵng",
+              "isCorrect": true
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "content": "\"Tiến Quân Ca\" được ai sáng tác?",
+          "options": [
+            {
+              "content": "Nam Cao",
+              "isCorrect": "false"
+            },
+            {
+              "content": "Văn Cao",
+              "isCorrect": true
+            },
+            {
+              "content": "Hồ Chí Minh",
+              "isCorrect": "false"
+            },
+            {
+              "content": "Trịnh Công Sơn",
+              "isCorrect": "false"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "content": "Công thức hóa học của muối ăn?",
+          "options": [
+            {
+              "content": "HCl",
+              "isCorrect": "false"
+            },
+            {
+              "content": "NaCl",
+              "isCorrect": true
+            },
+            {
+              "content": "Na2CO3",
+              "isCorrect": "false"
+            },
+            {
+              "content": "CaCl2",
+              "isCorrect": "false"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "content": "10x10=?",
+          "options": [
+            {
+              "content": "100",
+              "isCorrect": true
+            },
+            {
+              "content": "abc",
+              "isCorrect": "false"
+            },
+            {
+              "content": "0",
+              "isCorrect": "false"
+            }
+          ]
+        }
+      ],
+      "id": 2
+    }
+  ],
+  "diary": [
+    {
+      "user": {
+        "username": "hoa",
+        "password": "1",
+        "fullName": "Nguyễn Hòa",
+        "dob": "2022-07-03T17:00:00.000Z",
+        "email": "hoa@gmail.com",
+        "roles": [
+          "user"
+        ],
+        "id": 2
+      },
+      "submissions": {
+        "answers": [
+          1,
+          2,
+          [
+            0
+          ]
+        ],
+        "score": 2,
+        "total": 3
+      },
+      "exam": {
+        "name": "Đề số 1",
+        "time": 5,
+        "isActive": true,
+        "questions": [
+          {
+            "id": 1,
+            "content": "1+1=?",
+            "options": [
+              {
+                "content": "1",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "2",
+                "isCorrect": true,
+                "count": 0
+              },
+              {
+                "content": "3",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "4",
+                "isCorrect": false,
+                "count": 0
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "content": "1+2=?",
+            "options": [
+              {
+                "content": "1",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "2",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "3",
+                "isCorrect": true,
+                "count": 0
+              },
+              {
+                "content": "4",
+                "isCorrect": false,
+                "count": 0
+              }
+            ]
+          },
+          {
+            "id": 9,
+            "content": "Con nào biết bơi?                               ",
+            "options": [
+              {
+                "content": "Tôm",
+                "isCorrect": true,
+                "count": 0
+              },
+              {
+                "content": "Cá",
+                "isCorrect": true,
+                "count": 0
+              }
+            ]
+          }
+        ],
+        "id": 1
+      },
+      "submitAt": "2022-07-01T21:40:52.915Z",
+      "id": 1
+    },
+    {
+      "user": {
+        "username": "quan",
+        "password": "1",
+        "fullName": "Phạm Anh Quân",
+        "dob": "2021-08-10T17:00:00.000Z",
+        "email": "quan@gmail.com",
+        "roles": [
+          "user"
+        ],
+        "id": 3
+      },
+      "submissions": {
+        "answers": [
+          1,
+          2,
+          [
+            0,
+            1
+          ]
+        ],
+        "score": 3,
+        "total": 3
+      },
+      "exam": {
+        "name": "Đề số 1",
+        "time": 5,
+        "isActive": true,
+        "questions": [
+          {
+            "id": 1,
+            "content": "1+1=?",
+            "options": [
+              {
+                "content": "1",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "2",
+                "isCorrect": true,
+                "count": 0
+              },
+              {
+                "content": "3",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "4",
+                "isCorrect": false,
+                "count": 0
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "content": "1+2=?",
+            "options": [
+              {
+                "content": "1",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "2",
+                "isCorrect": false,
+                "count": 0
+              },
+              {
+                "content": "3",
+                "isCorrect": true,
+                "count": 0
+              },
+              {
+                "content": "4",
+                "isCorrect": false,
+                "count": 0
+              }
+            ]
+          },
+          {
+            "id": 9,
+            "content": "Con nào biết bơi?                               ",
+            "options": [
+              {
+                "content": "Tôm",
+                "isCorrect": true,
+                "count": 0
+              },
+              {
+                "content": "Cá",
+                "isCorrect": true,
+                "count": 0
+              }
+            ]
+          }
+        ],
+        "id": 1
+      },
+      "submitAt": "2022-07-01T21:41:27.906Z",
+      "id": 2
+    }
+  ]
+}

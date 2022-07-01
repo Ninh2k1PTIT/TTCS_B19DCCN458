@@ -1,0 +1,89 @@
+<p-card class="fixedElement">
+  <div *ngIf="submitted; else doing">Đã hoàn thành bài thi!</div>
+  <ng-template #doing>
+    <div *ngIf="time > 0; else over">
+      Thời gian còn lại: {{ hour | number: "2.0-0" }}:{{
+        minutes | number: "2.0-0"
+      }}:{{ second | number: "2.0-0" }}
+    </div>
+    <ng-template #over>Hết giờ! Vui lòng nộp bài</ng-template>
+  </ng-template>
+
+  <p-progressBar
+    [showValue]="false"
+    [value]="(time / totalTime) * 100"
+  ></p-progressBar>
+  <div class="flex justify-content-center mt-2">
+    <p-button
+      *ngIf="!submitted"
+      label="Nộp bài"
+      (onClick)="onSubmit()"
+    ></p-button>
+    <p-button
+      *ngIf="submitted"
+      label="Thoát"
+      styleClass="p-button-secondary"
+      [style]="{ 'margin-left': '.5em' }"
+      [routerLink]="['/practice']"
+    ></p-button>
+  </div>
+</p-card>
+
+<p-scrollTop #scroll></p-scrollTop>
+
+<p-panel header="{{ name }}">
+  <h1 *ngIf="submitted">Kết quả: {{ getScore() + "/" + exam.length }}</h1>
+  <form [formGroup]="form">
+    <div formGroupName="submissions">
+      <div formArrayName="answers">
+        <ul *ngFor="let question of exam; let i = index">
+          <div>
+            <div>Câu {{ i + 1 }}: {{ question.content }}</div>
+            <ul *ngFor="let option of question.options; let j = index">
+              <div class="field-checkbox">
+                <div *ngIf="isChxbox(question.options); else radio">
+                  <p-checkbox
+                    [readonly]="!(time > 0)"
+                    [value]="j"
+                    (onChange)="selected(i, $event, j)"
+                  ></p-checkbox>
+                </div>
+                <ng-template #radio>
+                  <p-radioButton
+                    [disabled]="!(time > 0)"
+                    formControlName="{{ i }}"
+                    [value]="j"
+                    name="{{ i }}"
+                  ></p-radioButton
+                ></ng-template>
+
+                <label for="binary"
+                  >{{ option.content }}
+                  <i
+                    *ngIf="option.isCorrect == true && submitted == true"
+                    class="pi pi-check green-color"
+                  ></i
+                ></label>
+              </div>
+            </ul>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </form>
+</p-panel>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  acceptLabel="Đồng ý"
+  rejectLabel="Đóng"
+  rejectButtonStyleClass="p-button-secondary"
+  key="submit"
+></p-confirmDialog>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  acceptLabel="Xem kết quả"
+  [rejectVisible]="false"
+  key="result"
+></p-confirmDialog>

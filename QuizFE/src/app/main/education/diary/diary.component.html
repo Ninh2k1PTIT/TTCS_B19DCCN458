@@ -1,0 +1,89 @@
+<p-table
+  [value]="data"
+  [rows]="size"
+  [paginator]="true"
+  [globalFilterFields]="[
+    'name',
+    'country.name',
+    'representative.name',
+    'status'
+  ]"
+  responsiveLayout="scroll"
+  [rowHover]="true"
+  dataKey="id"
+  currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng số {totalRecords} bài thi"
+  [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h3 class="m-0">NHẬT KÍ NỘP BÀI</h3>
+      <span class="p-input-icon-left">
+        <label for="">Số hàng: </label>
+        <p-dropdown
+          [autoDisplayFirst]="false"
+          [options]="sizeOption"
+          [(ngModel)]="size"
+        ></p-dropdown>
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th>
+      <th pSortableColumn="user.fullName">
+        TÊN THÍ SINH<p-sortIcon field="user.fullName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="user.username">
+        USERNAME<p-sortIcon field="user.email"></p-sortIcon>
+      </th>
+      <th pSortableColumn="submitAt">
+        THỜI GIAN NỘP<p-sortIcon field="submitAt"></p-sortIcon>
+      </th>
+      <th pSortableColumn="exam.score">
+        KẾT QUẢ<p-sortIcon field="exam.score"></p-sortIcon>
+      </th>
+      <th>THAO TÁC</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-answer>
+    <tr>
+      <td>{{ answer.id }}</td>
+      <td>{{ answer.user.fullName }}</td>
+      <td>{{ answer.user.username }}</td>
+      <td>{{ answer.submitAt | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+      <td>{{ answer.submissions.score + "/" + answer.submissions.total }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          pTooltip="Chi tiết"
+          tooltipPosition="top"
+          icon="pi pi-eye"
+          class="p-button-rounded p-button-help mr-2"
+          [routerLink]="['detail', answer.id]"
+        ></button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Xóa"
+          tooltipPosition="top"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger"
+          (click)="deleteAnswer(answer)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      Tổng cộng có {{ data ? data.length : 0 }} bài thi.
+    </div>
+  </ng-template>
+</p-table>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  acceptLabel="Có"
+  rejectLabel="Không"
+  rejectButtonStyleClass="p-button-secondary"
+></p-confirmDialog>

@@ -1,0 +1,293 @@
+<p-card header="1. Thông tin chung">
+  <form [formGroup]="examForm">
+    <div class="grid p-fluid">
+      <div class="field col-12">
+        <label for="qs">Tên đề thi</label>
+        <textarea
+          [rows]="2"
+          pInputTextarea
+          required
+          [autoResize]="true"
+          formControlName="name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              (f['name'].invalid && submitted) ||
+              (f['name'].dirty && f['name'].invalid)
+          }"
+        ></textarea>
+        <small
+          class="p-error"
+          *ngIf="
+            (f['name'].invalid && submitted) ||
+            (f['name'].dirty && f['name'].invalid)
+          "
+          >Cần nhập tên đề thi</small
+        >
+      </div>
+      <div class="field col-12 md:col-6">
+        <label>Thời gian làm bài (phút)</label>
+        <input
+          type="number"
+          required
+          pInputText
+          formControlName="time"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              (f['time'].invalid && submitted) ||
+              (f['time'].dirty && f['time'].invalid)
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            (f['time'].invalid && submitted) ||
+            (f['time'].dirty && f['time'].invalid)
+          "
+          >Cần nhập thời gian làm bài</small
+        >
+      </div>
+      <div class="field col-12 md:col-6">
+        <label>Hoạt động</label>
+        <p-dropdown
+          [options]="status"
+          optionLabel="name"
+          optionValue="value"
+          formControlName="isActive"
+        ></p-dropdown>
+      </div>
+    </div>
+  </form>
+</p-card>
+<div class="mb-3"></div>
+<!-- <p-table
+      [value]="examForm.value.questions"
+      [formGroup]="examForm"
+      [rowTrackBy]="trackByFn"
+      styleClass="p-datatable-gridlines mt-1"
+      responsiveLayout="scroll"
+      dataKey="id"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Câu hỏi</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-item
+        let-i="rowIndex"
+        formArrayName="questions"
+      >
+        <tr [formGroupName]="i">
+          <td [style]="{ width: '80%' }" pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input
+                  pInputText
+                  type="text"
+                  placeholder="Nhập phương án"
+                  formControlName="content"
+                />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ item.content }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+
+          <td [style]="{ width: '10%' }">
+            <button
+              pButton
+              pRipple
+              (click)="onRowEditInit(i)"
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <button
+          pButton
+          pRipple
+          label="Thêm phương án"
+          icon="pi pi-plus"
+          class="p-button-primary mr-2"
+          (click)="addOption()"
+        ></button>
+      </ng-template>
+    </p-table> -->
+<p-card header="2. Quản lý câu hỏi của đề thi">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="Thêm từ ngân hàng câu hỏi"
+        icon="pi pi-plus"
+        class="p-button-primary mr-2"
+        (click)="openAddQuestionsDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Xóa"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedQuestions()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines mt-1"
+    [value]="examForm.value.questions"
+    [rows]="size"
+    [paginator]="true"
+    responsiveLayout="scroll"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng số {totalRecords} câu hỏi"
+    [showCurrentPageReport]="true"
+    [(selection)]="selectedQuestions"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h3 class="m-0">DANH SÁCH CÂU HỎI</h3>
+        <span class="p-input-icon-left">
+          <label for="">Số hàng: </label>
+          <p-dropdown
+            [autoDisplayFirst]="false"
+            [options]="sizeOption"
+            [(ngModel)]="size"
+          ></p-dropdown>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="question">
+          CÂU HỎI<p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>THAO TÁC</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-question let-i="rowIndex">
+      <tr>
+        <td [style]="{ width: '5%' }">
+          <p-tableCheckbox [value]="question"></p-tableCheckbox>
+        </td>
+        <td [style]="{ width: '10%' }">{{ question.id }}</td>
+        <td [style]="{ width: '70%' }">{{ question.content }}</td>
+        <td [style]="{ width: '10%' }">
+          <!-- <button
+            pButton
+            pRipple
+            pTooltip="Chỉnh sửa"
+            tooltipPosition="top"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-help mr-2"
+          ></button> -->
+          <button
+            pButton
+            pRipple
+            pTooltip="Xóa"
+            tooltipPosition="top"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            (click)="deleteQuestion(i)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Tổng cộng có
+        {{ examForm.value.questions ? examForm.value.questions.length : 0 }}
+        câu hỏi.
+      </div>
+    </ng-template>
+  </p-table>
+  <div class="flex justify-content-end mt-2">
+    <p-button label="Lưu" (click)="saveExam()"></p-button>
+    <p-button
+      label="Quay lại"
+      styleClass="p-button-secondary"
+      [style]="{ 'margin-left': '.5em' }"
+      [routerLink]="['/exam']"
+    ></p-button>
+  </div>
+</p-card>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  acceptLabel="Có"
+  rejectLabel="Không"
+  rejectButtonStyleClass="p-button-secondary"
+></p-confirmDialog>
+
+<p-toast></p-toast>
+
+<p-dialog
+  [(visible)]="dialog"
+  [style]="{ width: '90%', height: '90%' }"
+  header="Ngân hàng câu hỏi"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <p-table
+      styleClass="p-datatable-gridlines"
+      [value]="questionBank"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      responsiveLayout="scroll"
+      currentPageReportTemplate="Hiển thị {first} đến {last} trong tổng số {totalRecords} câu hỏi"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [(selection)]="newQuestionList"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>Câu hỏi</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-question>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="question"></p-tableCheckbox>
+          </td>
+          <td>{{ question.content }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Hủy"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Thêm"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveQuestion()"
+    ></button>
+  </ng-template>
+</p-dialog>
